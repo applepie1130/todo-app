@@ -1,0 +1,35 @@
+<script id="mainTemplate" type="text/x-handlebars-template">
+
+<div class="page-content page-container" id="page-content">
+	<div class="page-content page-container" id="page-content">
+		<div class="padding">
+			<div class="row container d-flex justify-content-center">
+				<div class="col-lg-12">
+					<div class="card px-3">
+						<div class="card-body">
+							<h4 class="card-title">Todo List</h4>
+							<div class="add-items d-flex">
+								<input type="text" class="form-control todo-list-input" placeholder="What do you need to do today?">
+								<button class="add btn btn-primary font-weight-bold todo-list-add-btn" id="action">Add</button>
+							</div>
+							<div class="list-wrapper">
+								<ul class="d-flex flex-column-reverse todo-list">
+
+									{{#each list}}  
+									<li class="completed">
+										<div class="form-check"> 
+											<label class="form-check-label"> <input id="complete" class="checkbox" type="checkbox" checked=""> {{contents}} <i class="input-helper"></i></label>
+										</div>
+										<i id="remove" class="remove mdi mdi-close-circle-outline"></i>
+									</li>
+									{{/each}}
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>

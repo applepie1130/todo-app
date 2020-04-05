@@ -8,6 +8,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.resource.PathResourceResolver;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
@@ -17,6 +18,14 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 public class TodoWebConfig implements WebMvcConfigurer {
 
 	private final ApplicationContext applicationContext;
+	
+    private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
+            "classpath:/META-INF/resources/", 
+            "classpath:/resources/",
+            "classpath:/templates/",
+            "classpath:/swagger/",
+            "classpath:/static/"
+            };
 
 	@Autowired
 	public TodoWebConfig(ApplicationContext applicationContext) {
@@ -27,7 +36,7 @@ public class TodoWebConfig implements WebMvcConfigurer {
 	public SpringResourceTemplateResolver templateResolver() {
 		SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
 		templateResolver.setApplicationContext(applicationContext);
-		templateResolver.setPrefix("/WEB-INF/views/");
+		templateResolver.setPrefix("classpath:templates/");
 		templateResolver.setSuffix(".html");
 		templateResolver.setCacheable(false);
 		templateResolver.setTemplateMode("HTML5");
@@ -51,9 +60,10 @@ public class TodoWebConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/css/**").addResourceLocations("/css/");
-		registry.addResourceHandler("/js/**").addResourceLocations("/js/");
-		registry.addResourceHandler("/images/**").addResourceLocations("/images/");
-		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+		registry.addResourceHandler("/**")
+        .addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS)
+        .setCachePeriod(1)
+        .resourceChain(true)
+        .addResolver(new PathResourceResolver());
 	}
 }
