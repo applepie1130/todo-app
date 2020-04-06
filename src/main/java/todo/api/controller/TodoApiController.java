@@ -1,16 +1,17 @@
 package todo.api.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,19 +41,12 @@ public class TodoApiController {
 			httpMethod = "GET",
 			value = "TODO 리스트 조회",
 			notes = "입력한 TODO 일정 리스트 정보 조회한다",
-			response = Map.class
+			response = ResponseEntity.class
 			)
 	public ResponseEntity<List<TodoTuple>> getTodoList() {
 		
-		try {
-			// test
-			todoService.saveContents(null);
-			
-			List<TodoTuple> todoList = todoService.getTodoList();
-			return new ResponseEntity<List<TodoTuple>>(todoList, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<List<TodoTuple>>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+		List<TodoTuple> todoList = todoService.getTodoList();
+		return new ResponseEntity<List<TodoTuple>>(todoList, HttpStatus.OK);
 		
 	}
 
@@ -61,13 +55,16 @@ public class TodoApiController {
 			httpMethod = "POST",
 			value = "TODO 일정등록",
 			notes = "TODO 일정을 등록한다",
-			response = Map.class
+			response = ResponseEntity.class
 			)
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "contents", value = "일정", required = true, dataType = "string", paramType = "query", example = "해야할 목록1")
 	})
-	public String saveContents(String contents) {
-		return "하아하";
+	public ResponseEntity<Boolean> saveContents(@ModelAttribute("contents") final String contents) {
+		
+		todoService.saveContents(contents);
+		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+		
 	}
 	
 	@PutMapping(path="/todo")
@@ -75,44 +72,47 @@ public class TodoApiController {
 			httpMethod = "PUT",
 			value = "TODO 일정수정",
 			notes = "TODO 일정을 수정한다",
-			response = Map.class
+			response = ResponseEntity.class
 			)
-	@ApiImplicitParams({
-		@ApiImplicitParam(name = "id", value = "id", required = true, dataType = "string", paramType = "query", example = ""),
-		@ApiImplicitParam(name = "contents", value = "일정", required = true, dataType = "string", paramType = "query", example = "해야할 목록2")
-	})
-	public String updateContents(String id, String contents) {
-		return "";
+	public ResponseEntity<Boolean> updateContents(@RequestBody TodoTuple todoTuple) {
+		
+		todoService.updateContents(todoTuple);
+		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+		
 	}
 	
-	@DeleteMapping(path="/todo")
+	@DeleteMapping(path="/todo/{id}")
 	@ApiOperation(
 			httpMethod = "DELETE",
 			value = "TODO 일정 삭제",
 			notes = "TODO 일정을 삭제한다",
-			response = Map.class
+			response = ResponseEntity.class
 			)
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "id", value = "id", required = true, dataType = "string", paramType = "query", example = ""),
-		@ApiImplicitParam(name = "contents", value = "일정", required = true, dataType = "string", paramType = "query", example = "해야할 목록2")
+		@ApiImplicitParam(name = "id", value = "id", required = true, dataType = "string", paramType = "path", example = "")
 	})
-	public String deleteContents(String id, String contents) {
-		return "";
+	public ResponseEntity<Boolean> deleteContents(@PathVariable("id") final String id) {
+		
+		todoService.deleteContents(id);
+		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+		
 	}
 	
 	
-	@PutMapping(path="/complete")
+	@PutMapping(path="/complete/{id}")
 	@ApiOperation(
 			httpMethod = "PUT",
 			value = "TODO 일정완료",
 			notes = "TODO 일정을 완료한다",
-			response = Map.class
+			response = ResponseEntity.class
 			)
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "id", value = "id", required = true, dataType = "string", paramType = "query", example = ""),
-		@ApiImplicitParam(name = "contents", value = "일정", required = true, dataType = "string", paramType = "query", example = "해야할 목록2")
+		@ApiImplicitParam(name = "id", value = "id", required = true, dataType = "string", paramType = "path", example = "")
 	})
-	public String completeTodo(String id, String contents) {
-		return "";
+	public ResponseEntity<Boolean> completeTodo(@PathVariable("id") final String id) {
+		
+		todoService.updateStatus(id);
+		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+		
 	}
 }

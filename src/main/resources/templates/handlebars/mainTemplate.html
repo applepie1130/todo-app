@@ -1,5 +1,69 @@
 <script id="mainTemplate" type="text/x-handlebars-template">
+<div class="d-flex justify-content-center container">
+    <div class="col-lg-8">
+		<div class="card px-3">
+			<div class="card-body">
+				<div class="add-items d-flex">
+					<input type="text" id="inputArea" class="form-control todo-list-input" placeholder="What do you need to do today?">
+					<button class="add btn btn-primary font-weight-bold todo-list-add-btn" id="action">Add</button>
+					<button class="btn btn-link font-weight-bold" id="cancel" style="display:none;">Cancel</button>
+				</div>
+			</div>			
+		</div>
 
+		<br/>
+
+        <div class="card-hover-shadow-2x lg-3 card">
+            <div class="card-header-tab card-header">
+                <div class="card-header-title font-size-lg text-capitalize font-weight-normal"><i class="fa fa-tasks"></i>&nbsp;Todo List</div>
+            </div>
+            <!-- <div class="scroll-area-sm"> -->
+                <perfect-scrollbar class="ps-show-limits" >
+                    <div style="position: static;" class="ps ps--active-y">
+                        <div class="ps-content">
+                            <ul class=" list-group list-group-flush">
+
+								{{#each list}}
+                                <li class="list-group-item" data={{this.id}}>
+                                    <div class="todo-indicator bg-primary"></div>
+                                    <div class="widget-content p-0">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left mr-2">
+                                                <div class="custom-checkbox custom-control"> <input class="_check custom-control-input" id="row_{{this.id}}" type="checkbox" {{checkedIf this.isCompleted}} ><label class="custom-control-label" for="row_{{this.id}}">&nbsp;</label> </div>
+                                            </div>
+                                            <div class="widget-content-left" id="content">
+												{{#if this.isCompleted}}
+                                                <div class="widget-heading completed">{{this.contents}} <div class="badge badge-pill badge-info ml-2">Completed</div></div>
+												{{else}}
+												<div class="widget-heading">{{this.contents}}</div>
+												{{/if}} 
+
+                                                <div class="widget-subheading">
+													<i>Created by {{formatDate this.insertDate 'YYYY.MM.DD HH:mm:ss'}}</i>
+												</div>
+												<div class="widget-subheading">
+													<i>Modified by {{formatDate this.updateDate 'YYYY.MM.DD HH:mm:ss'}}</i>
+												</div>
+                                            </div>
+                                            <div class="widget-content-right">
+											<!-- <button class="border-0 btn-transition btn btn-outline-success"> <i class="fa fa-check"></i></button> -->
+											<button id="remove" class="border-0 btn-transition btn btn-outline-danger"> <i class="fa fa-trash"></i> </button> </div>
+                                        </div>
+                                    </div>
+                                </li>
+								{{/each}}
+                            </ul>
+                        </div>
+                    </div>
+                </perfect-scrollbar>
+            <!-- </div> -->            
+        </div>
+    </div>
+</div>
+</script>
+
+
+<script id="temp" type="text/x-handlebars-template">
 <div class="page-content page-container" id="page-content">
 	<div class="page-content page-container" id="page-content">
 		<div class="padding">
@@ -9,16 +73,23 @@
 						<div class="card-body">
 							<h4 class="card-title">Todo List</h4>
 							<div class="add-items d-flex">
-								<input type="text" class="form-control todo-list-input" placeholder="What do you need to do today?">
+								<input type="text" id="inputArea" class="form-control todo-list-input" placeholder="What do you need to do today?">
 								<button class="add btn btn-primary font-weight-bold todo-list-add-btn" id="action">Add</button>
 							</div>
 							<div class="list-wrapper">
 								<ul class="d-flex flex-column-reverse todo-list">
 
-									{{#each list}}  
-									<li class="completed">
+									{{#each list}}
+									{{#if this.isCompleted}}  
+									<li class="completed" data={{this.id}}>
+									{{else}}
+									<li data={{this.id}}>
+									{{/if}}
 										<div class="form-check"> 
-											<label class="form-check-label"> <input id="complete" class="checkbox" type="checkbox" checked=""> {{contents}} <i class="input-helper"></i></label>
+											<label class="form-check-label"> <input id="complete" class="checkbox" type="checkbox" {{checkedIf this.isCompleted}} > {{this.contents}} 
+											<i class="input-helper"></i></label>
+											<lable class="form-check-label"> 생성 : {{formatDate this.insertDate 'YYYY.MM.DD HH:mm:ss'}} </lable>
+											<lable class="form-check-label"> 수정 : {{formatDate this.updateDate 'YYYY.MM.DD HH:mm:ss'}} </lable>											
 										</div>
 										<i id="remove" class="remove mdi mdi-close-circle-outline"></i>
 									</li>

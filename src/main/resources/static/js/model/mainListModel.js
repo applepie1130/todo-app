@@ -8,8 +8,7 @@ define( "model/mainListModel",
 		url : "",
 		
 		
-		defaults : {
-		},
+		defaults : {},
 
 		
 		initialize : function() {
@@ -21,9 +20,17 @@ define( "model/mainListModel",
 		parse : function(response) {
 			var s = this;
 			var result = response;
+			
+			if ( !_.isEmpty(result) ) {
+				_.forEach(result, function(data){
+					data.isCompleted = (data.status === "COMPLETED");
+				});
+			}
+			
+			console.log(result);
 
 			s.set({
-				list				: response
+				list : result
 			});
 			
 			return s;

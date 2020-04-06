@@ -71,6 +71,7 @@ dependencies {
 	compile 'org.webjars.bower:font-awesome:4.7.0'
 	compile 'org.webjars:handlebars:4.0.2'
 	compile 'org.webjars:requirejs:2.1.5'
+	compile 'org.webjars:momentjs:2.24.0'
 	/* webjar */
 	
 	[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'

@@ -23,7 +23,7 @@ public class TodoTuple {
     public static final String SEQUENCE_NAME = "sequence";
 	
 	@Id
-	private Long id;
+	private String id;
 	
 	private String contents;
 	
