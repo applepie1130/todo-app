@@ -1,5 +1,7 @@
 package todo.api.model.tuple;
 
+import java.io.Serializable;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,7 +13,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "database_sequences")
-public class DatabaseSequence {
+public class DatabaseSequenceTuple implements Serializable {
+	
+	private static final long serialVersionUID = -1056730510005299370L;
 	
 	@Id
 	private String id;

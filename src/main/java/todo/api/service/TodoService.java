@@ -2,45 +2,73 @@ package todo.api.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.domain.Sort.Order;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import todo.api.advice.TodoApiException;
+import todo.api.model.criteria.SearchCriteria;
 import todo.api.model.tuple.TodoTuple;
-import todo.api.model.type.TodoStatus;
+import todo.api.model.type.MessageType;
+import todo.api.model.type.StatusType;
 import todo.api.repository.TodoRepository;
 
 @Service
 public class TodoService {
 	
-	private TodoRepository todoRepository;
+	private final TodoRepository todoRepository;
+	private final GenerateSequenceService generateSequenceService;
+	private final MessageService messageService;
 	
-	private GenerateSequenceService generateSequenceService;
-
-	@Autowired
-	public TodoService(TodoRepository todoRepository, GenerateSequenceService generateSequenceService) {
+	public TodoService(TodoRepository todoRepository, GenerateSequenceService generateSequenceService, MessageService messageService) {
 		super();
 		this.todoRepository = todoRepository;
 		this.generateSequenceService = generateSequenceService;
+		this.messageService = messageService;
 	}
-	
+
 	private String getSequence() {
 		return generateSequenceService.generateSequence(TodoTuple.SEQUENCE_NAME).toString();
 	}
 	
-	public List<TodoTuple> getTodoList() {
-		return todoRepository.findAll(Sort.by(Sort.Direction.DESC, "updateDate"));
+	public Page<TodoTuple> getTodoList() {
+		// 최근수정일자로 descending
+		int page = 0;
+		int pageSize = 5;
+		Pageable pageableRequest = PageRequest.of(page, pageSize, Sort.Direction.DESC, "updateDate");
+		Page<TodoTuple> findAll = todoRepository.findAll(pageableRequest);
+		
+		return findAll;
 	}
 	
-	public void saveContents(String contents) {
+	public Page<TodoTuple> getSearchTodoList(SearchCriteria searchCriteria) {
+		
+		if ( searchCriteria == null ) {
+			throw new TodoApiException(HttpStatus.INTERNAL_SERVER_ERROR, messageService.getMessage(MessageType.TODO_ERROR_DEFAULT.getCode()));
+		} else if (StringUtils.isBlank(searchCriteria.getKeyword())) {
+			throw new TodoApiException(HttpStatus.INTERNAL_SERVER_ERROR, messageService.getMessage(MessageType.TODO_ERROR_REQURIED_KEYWORD.getCode()));
+		}
+		
+		// 최근수정일자로 descending
+		int page = searchCriteria.getPage();
+		int pageSize = 5;
+		Pageable pageableRequest = PageRequest.of(page, pageSize, Sort.Direction.DESC, "updateDate");
+		Page<TodoTuple> findAll = todoRepository.findAll(pageableRequest);
+		
+		return findAll;
+	}
+	
+	public void saveContents(final String contents) {
 		
 		if ( StringUtils.isBlank(contents) ) {
-//			new RestException(HttpStatus.INTERNAL_SERVER_ERROR, "내용을 입려해 주세요.");
+			throw new TodoApiException(HttpStatus.INTERNAL_SERVER_ERROR, messageService.getMessage(MessageType.TODO_ERROR_REQURIED_CONTENT.getCode()));
 		}
 		
 		TodoTuple todoTuple = TodoTuple.builder()
@@ -48,20 +76,20 @@ public class TodoService {
 			.insertDate(new Date())
 			.updateDate(new Date())
 			.contents(contents)
-			.status(TodoStatus.ING)
+			.status(StatusType.ING)
 			.build();
 		
 		TodoTuple result = todoRepository.insert(todoTuple);
 		
 		if ( result == null ) {
-//			new RestException(HttpStatus.INTERNAL_SERVER_ERROR, "저장 중 오류가 발생했습니다.");	
+			throw new TodoApiException(HttpStatus.INTERNAL_SERVER_ERROR, messageService.getMessage(MessageType.TODO_ERROR_SAVE.getCode()));	
 		}
 	}
 	
-	public void updateContents(TodoTuple todoTuple) {
+	public void updateContents(final TodoTuple todoTuple) {
 		
 		if ( todoTuple == null ) {
-//			new RestException(HttpStatus.INTERNAL_SERVER_ERROR, "ID값은 필수 입니다.");
+			throw new TodoApiException(HttpStatus.INTERNAL_SERVER_ERROR, messageService.getMessage(MessageType.TODO_ERROR_REQURIED_ID.getCode()));
 		}
 		
 		todoTuple.setUpdateDate(new Date());
@@ -69,37 +97,37 @@ public class TodoService {
 		TodoTuple result = todoRepository.save(todoTuple);
 		
 		if ( result == null ) {
-//			new RestException(HttpStatus.INTERNAL_SERVER_ERROR, "수정 중 오류가 발생했습니다.");
+			throw new TodoApiException(HttpStatus.INTERNAL_SERVER_ERROR, messageService.getMessage(MessageType.TODO_ERROR_UPDATE.getCode()));
 		}
 	}
 	
-	public void deleteContents(String id) {
+	public void deleteContents(final String id) {
 		if ( StringUtils.isBlank(id) ) {
-//			new RestException(HttpStatus.INTERNAL_SERVER_ERROR, "ID값은 필수 입니다.");
+			throw new TodoApiException(HttpStatus.INTERNAL_SERVER_ERROR, messageService.getMessage(MessageType.TODO_ERROR_REQURIED_ID.getCode()));
 		}
 		
 		todoRepository.deleteById(id);
 	}
 	
 
-	public void updateStatus(String id) {
+	public void updateStatus(final String id) {
 		
 		if ( StringUtils.isBlank(id) ) {
-//			new RestException(HttpStatus.INTERNAL_SERVER_ERROR, "ID값은 필수 입니다.");
+			throw new TodoApiException(HttpStatus.INTERNAL_SERVER_ERROR, messageService.getMessage(MessageType.TODO_ERROR_REQURIED_ID.getCode()));
 		}
 		
 		Optional<TodoTuple> findByIdResult = todoRepository.findById(id);
-//		findByIdResult.filter(Objects::nonNull).orElseThrow(() -> new RestException(HttpStatus.INTERNAL_SERVER_ERROR, "오류가 발생했습니다.") )
+		findByIdResult.filter(Objects::nonNull).orElseThrow(() -> new TodoApiException(HttpStatus.INTERNAL_SERVER_ERROR, messageService.getMessage(MessageType.TODO_ERROR_DEFAULT.getCode())));
 		
 		if ( findByIdResult.isPresent() ) {
 			TodoTuple todoTuple = findByIdResult.get();
 			switch (todoTuple.getStatus()) {
 			case COMPLETED:
-				todoTuple.setStatus(TodoStatus.ING);
+				todoTuple.setStatus(StatusType.ING);
 				break;
 				
 			case ING:
-				todoTuple.setStatus(TodoStatus.COMPLETED);				
+				todoTuple.setStatus(StatusType.COMPLETED);				
 				break;
 
 			default:
@@ -109,7 +137,7 @@ public class TodoService {
 			todoRepository.save(todoTuple);
 			
 		} else {
-//			new RestException(HttpStatus.INTERNAL_SERVER_ERROR, "데이터를 찾을 수 없습니다.");
+			throw new TodoApiException(HttpStatus.INTERNAL_SERVER_ERROR, messageService.getMessage(MessageType.TODO_ERROR_NODATA.getCode()));
 		}
 	}
 }

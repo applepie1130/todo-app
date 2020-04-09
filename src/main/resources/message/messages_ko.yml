@@ -1,0 +1,14 @@
+todo:
+  success:
+    select: 조회되었습니다.
+    process: 처리되었습니다.
+    
+  error:
+    default : 오류가 발생했습니다..
+    nodata : 데이터를 찾을 수 없습니다.
+    required:
+      id: ID값은 필수입니다.
+      content: 내용을 입력해 주세요.
+      keyword: 검색 키워드를 입력해주세요.
+    save: 저장처리 중 오류가 발생했습니다.
+    update: 수정처리 중 오류가 발생했습니다.

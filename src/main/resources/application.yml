@@ -1,4 +1,9 @@
 
+spring:
+  messages:
+    basename: message/messages
+    encoding: UTF-8 
+
 logging:
   level:
     todo : DEBUG

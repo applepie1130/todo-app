@@ -45,10 +45,8 @@ define( "view/mainView",
 					withCredentials: true
 				},
 				success		: function(response, status, jqXHR) {
-					console.log(response);
 				},
 				error : function(response, status, errorThrown) {
-					console.log(response);
 				}
 			});
 			
@@ -120,6 +118,7 @@ define( "view/mainView",
 					success		: function(response, status, jqXHR) {
 					},
 					error : function(response, status, errorThrown) {
+						alert(response.responseJSON.message);
 					}
 				}).always(function(){
 					s.render();
@@ -139,6 +138,7 @@ define( "view/mainView",
 					success		: function(response, status, jqXHR) {
 					},
 					error : function(response, status, errorThrown) {
+						alert(response.responseJSON.message);
 					}
 				}).always(function(){
 					s.render();
@@ -164,6 +164,7 @@ define( "view/mainView",
 				success		: function(response, status, jqXHR) {
 				},
 				error : function(response, status, errorThrown) {
+					alert(response.responseJSON.message);
 				}
 			}).always(function(){
 				s.render();
@@ -188,6 +189,7 @@ define( "view/mainView",
 				success		: function(response, status, jqXHR) {
 				},
 				error : function(response, status, errorThrown) {
+					alert(response.responseJSON.message);
 				}
 			}).always(function(){
 				s.render();
@@ -222,7 +224,6 @@ define( "view/mainView",
 					s.$el.html(s.template( s.model.toJSON() ));
 				}
 			});
-			
 	    }
 	});
 	

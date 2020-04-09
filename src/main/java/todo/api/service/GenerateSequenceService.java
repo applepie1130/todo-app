@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
-import todo.api.model.tuple.DatabaseSequence;
+import todo.api.model.tuple.DatabaseSequenceTuple;
 
 @Service
 public class GenerateSequenceService {
@@ -25,11 +25,11 @@ public class GenerateSequenceService {
 	}
 
 	public Long generateSequence(String seqName) {
-		DatabaseSequence counter = mongoOperations.findAndModify(
+		DatabaseSequenceTuple counter = mongoOperations.findAndModify(
 										query(where("_id").is(seqName)),
 										new Update().inc("seq", 1), 
 										options().returnNew(true).upsert(true), 
-										DatabaseSequence.class);
+										DatabaseSequenceTuple.class);
 		
 		return !Objects.isNull(counter) ? counter.getSeq() : 1;
 	}

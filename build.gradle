@@ -27,6 +27,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-web-services'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'net.rakugakibox.util:yaml-resource-bundle:1.1'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -49,11 +50,9 @@ dependencies {
 	/* Swagger Settings */
 
 	/* DB Settings */
-	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-mongodb
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: '2.2.6.RELEASE'
-	// https://mvnrepository.com/artifact/de.flapdoodle.embed/de.flapdoodle.embed.mongo
+	/*compile group: 'org.springframework.data', name: 'spring-data-commons', version: '2.2.6.RELEASE'*/
 	compile group: 'de.flapdoodle.embed', name: 'de.flapdoodle.embed.mongo', version: '2.2.0'
-	// https://mvnrepository.com/artifact/cz.jirutka.spring/embedmongo-spring
 	compile group: 'cz.jirutka.spring', name: 'embedmongo-spring', version: '1.1'
 	/* DB Settings */
 	
@@ -72,6 +71,7 @@ dependencies {
 	compile 'org.webjars:handlebars:4.0.2'
 	compile 'org.webjars:requirejs:2.1.5'
 	compile 'org.webjars:momentjs:2.24.0'
+	compile 'org.webjars:startbootstrap-sb-admin-2:4.0.6'
 	/* webjar */
 	
 	[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'

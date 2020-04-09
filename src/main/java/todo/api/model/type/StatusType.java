@@ -1,6 +1,6 @@
 package todo.api.model.type;
 
-public enum TodoStatus {
+public enum StatusType {
 	
 	ING,
 	COMPLETED

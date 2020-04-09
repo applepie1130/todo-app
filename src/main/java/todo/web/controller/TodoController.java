@@ -15,16 +15,7 @@ public class TodoController {
 		model.addAttribute("pageTitle", "Todo");
 		model.addAttribute("title", "Todo List");
 
-//		// given
-//		DBObject objectToSave = BasicDBObjectBuilder.start()
-//				.add("key", "value")
-//				.get();
-//		// when
-//		mongoTemplate.save(objectToSave, "collection");
-//		
-//		List<DBObject> findAll = mongoTemplate.findAll(DBObject.class, "collection");
-//		log.debug(findAll);
-
 		return "/main/main";
 	}
+	
 }

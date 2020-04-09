@@ -10,7 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import todo.api.model.type.TodoStatus;
+import todo.api.model.type.StatusType;
 
 @Data
 @NoArgsConstructor
@@ -27,7 +27,7 @@ public class TodoTuple {
 	
 	private String contents;
 	
-	private TodoStatus status;
+	private StatusType status;
 	
 	private Date insertDate;
 	

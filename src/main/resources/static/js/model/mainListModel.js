@@ -19,18 +19,22 @@ define( "model/mainListModel",
 		
 		parse : function(response) {
 			var s = this;
-			var result = response;
+			var result = response.result;
 			
-			if ( !_.isEmpty(result) ) {
-				_.forEach(result, function(data){
+			if ( !_.isEmpty(result) && !_.isEmpty(result.content) ) {
+				_.forEach(result.content, function(data){
 					data.isCompleted = (data.status === "COMPLETED");
 				});
 			}
-			
-			console.log(result);
 
 			s.set({
-				list : result
+				list : result.content,
+				paginationInfoTuple : {
+					pageSize : result.pageable.pageSize,
+					pageNumber : result.number + 1,
+					totalPages : result.totalPages,
+					totalElements : result.totalElements
+				}			
 			});
 			
 			return s;
