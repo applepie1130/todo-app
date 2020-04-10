@@ -2,11 +2,14 @@ define( "view/mainView",
 		
 		[
 			"common/helper",
-			"model/pageListModel"
+			"model/pageListModel",
+			"view/searchView"
 		],
 		
 		function (	Helper,
-					PageListModel) {
+					PageListModel,
+					SearchView
+		) {
 	
 	"use strict";
 
@@ -25,9 +28,17 @@ define( "view/mainView",
 		},
 		
 		selectedModel : null,
+		
+		searchView : null, // 검색영역 view
 
 		initialize: function( options ) {
 			var s = this;
+			
+			// 검색 view생성
+			s.searchView = new SearchView();
+			
+			// trigger listenTo
+			s.listenTo( s.searchView, "searchTrigger", s.pageListModelFetch );
 			
 			s.pageListModelFetch();
 			
@@ -39,7 +50,7 @@ define( "view/mainView",
 		  "click #cancel"					: "cancel",
 		  "click #remove"					: "remove",
 		  "click ._check" 					: "complete",
-		  "keydown :input[id='inputArea']"	: "enter",
+		  "keyup :input[id='inputArea']"	: "inputEnter",
 		  "click #goPageWithNumber"			: "goPageWithNumber",
 		  "click #goPrevPage"				: "goPrevPage",
 		  "click #goNextPage"				: "goNextPage",
@@ -51,8 +62,7 @@ define( "view/mainView",
 		pageListModelFetch : function() {
 			var s = this;
 			
-			var keyword = "";
-			
+			var keyword = $("#searchArea").val();
 			var url = "/api/v1/todo?" + "page=" + s.criteria.pageNumber + "&keyword=" + keyword;
 			s.model.url = url;
 			s.deferred = s.model.fetch({
@@ -69,9 +79,9 @@ define( "view/mainView",
 		},
 
 		/**
-		 * 일정 신규저장 및 선택일정 수정 Key 이벤트
+		 * 일정 신규저장 및 선택일정 수정영역 Key 이벤트
 		 */
-		enter : function(e) {
+		inputEnter : function(e) {
 			var s = this;
 			var keyCode = (e.keyCode ? e.keyCode : e.which);
 			
@@ -79,7 +89,6 @@ define( "view/mainView",
 				$("#action").trigger("click");
 			}
 		},
-		
 		
 		/**
 		 * 일정 선택

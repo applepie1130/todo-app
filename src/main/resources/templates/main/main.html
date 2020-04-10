@@ -4,17 +4,23 @@
 <th:block th:include="common/header"></th:block>
 
 <body>
+	<div id="top"></div>
 	<div id="container"></div>
 
+	<th:block th:include="handlebars/searchTemplate"></th:block>
 	<th:block th:include="handlebars/mainTemplate"></th:block>
 	
 	<script type="text/javascript">
 		require([
+			
 			"view/mainView"
+			
 		], function (MainVew) {
+			
  			function initView () {
 				var view = new MainVew();
 			}
+ 			
 			initView();
 		});
 	</script>

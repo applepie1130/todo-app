@@ -1,9 +1,6 @@
 package todo.api.service;
 
-import java.util.Date;
-import java.util.Objects;
-import java.util.Optional;
-
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,8 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import lombok.extern.log4j.Log4j2;
 import todo.api.advice.TodoApiException;
 import todo.api.model.criteria.SearchCriteria;
 import todo.api.model.tuple.TodoTuple;
@@ -21,6 +16,13 @@ import todo.api.model.type.MessageType;
 import todo.api.model.type.StatusType;
 import todo.api.repository.TodoRepository;
 
+import java.util.Date;
+import java.util.Objects;
+import java.util.Optional;
+
+/**
+ * The type Todo service.
+ */
 @Log4j2
 @Service
 public class TodoService {
@@ -28,7 +30,14 @@ public class TodoService {
 	private final TodoRepository todoRepository;
 	private final GenerateSequenceService generateSequenceService;
 	private final MessageService messageService;
-	
+
+	/**
+	 * Instantiates a new Todo service.
+	 *
+	 * @param todoRepository          the todo repository
+	 * @param generateSequenceService the generate sequence service
+	 * @param messageService          the message service
+	 */
 	@Autowired
 	public TodoService(TodoRepository todoRepository, GenerateSequenceService generateSequenceService, MessageService messageService) {
 		super();
@@ -41,7 +50,13 @@ public class TodoService {
 		return generateSequenceService.generateSequence(TodoTuple.SEQUENCE_NAME).toString();
 	}
 
-	public Page<TodoTuple> getSearchTodoList(SearchCriteria searchCriteria) {
+	/**
+	 * Gets search todo list.
+	 *
+	 * @param searchCriteria the search criteria
+	 * @return the search todo list
+	 */
+	public Page<TodoTuple> getSearchTodoList(final SearchCriteria searchCriteria) {
 		
 		if ( searchCriteria == null ) {
 			throw new TodoApiException(HttpStatus.INTERNAL_SERVER_ERROR, messageService.getMessage(MessageType.TODO_ERROR_DEFAULT.getCode()));
@@ -51,11 +66,15 @@ public class TodoService {
 		int page = searchCriteria.getPage();
 		int pageSize = 5;
 		Pageable pageableRequest = PageRequest.of(page, pageSize, Sort.Direction.DESC, "updateDate");
-		Page<TodoTuple> findAll = todoRepository.findAll(pageableRequest);
-		
-		return findAll;
+		Page<TodoTuple> result = todoRepository.findByContentsLike(searchCriteria.getKeyword(), pageableRequest);
+		return result;
 	}
-	
+
+	/**
+	 * Save contents.
+	 *
+	 * @param contents the contents
+	 */
 	public void saveContents(final String contents) {
 		
 		if ( StringUtils.isBlank(contents) ) {
@@ -76,11 +95,19 @@ public class TodoService {
 			throw new TodoApiException(HttpStatus.INTERNAL_SERVER_ERROR, messageService.getMessage(MessageType.TODO_ERROR_SAVE.getCode()));	
 		}
 	}
-	
+
+	/**
+	 * Update contents.
+	 *
+	 * @param todoTuple the todo tuple
+	 */
 	public void updateContents(final TodoTuple todoTuple) {
 		
 		if ( todoTuple == null ) {
 			throw new TodoApiException(HttpStatus.INTERNAL_SERVER_ERROR, messageService.getMessage(MessageType.TODO_ERROR_REQURIED_ID.getCode()));
+		} 
+		if ( StringUtils.isBlank(todoTuple.getContents()) ) {
+			throw new TodoApiException(HttpStatus.INTERNAL_SERVER_ERROR, messageService.getMessage(MessageType.TODO_ERROR_REQURIED_CONTENT.getCode()));
 		}
 		
 		todoTuple.setUpdateDate(new Date());
@@ -91,7 +118,12 @@ public class TodoService {
 			throw new TodoApiException(HttpStatus.INTERNAL_SERVER_ERROR, messageService.getMessage(MessageType.TODO_ERROR_UPDATE.getCode()));
 		}
 	}
-	
+
+	/**
+	 * Delete contents.
+	 *
+	 * @param id the id
+	 */
 	public void deleteContents(final String id) {
 		if ( StringUtils.isBlank(id) ) {
 			throw new TodoApiException(HttpStatus.INTERNAL_SERVER_ERROR, messageService.getMessage(MessageType.TODO_ERROR_REQURIED_ID.getCode()));
@@ -99,8 +131,13 @@ public class TodoService {
 		
 		todoRepository.deleteById(id);
 	}
-	
 
+
+	/**
+	 * Update status.
+	 *
+	 * @param id the id
+	 */
 	public void updateStatus(final String id) {
 		
 		if ( StringUtils.isBlank(id) ) {

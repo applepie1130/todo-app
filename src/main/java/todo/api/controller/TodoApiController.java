@@ -1,24 +1,15 @@
 package todo.api.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import todo.api.model.criteria.SearchCriteria;
 import todo.api.model.entity.TodoResponseEntity;
 import todo.api.model.tuple.TodoTuple;
@@ -27,6 +18,9 @@ import todo.api.service.MessageService;
 import todo.api.service.TodoService;
 
 
+/**
+ * The type Todo api controller.
+ */
 @Api(tags = "TodoApiController", value = "TODO API", produces = "application/json")
 @Log4j2
 @RestController
@@ -36,13 +30,25 @@ public class TodoApiController {
 	private final TodoService todoService;
 	private final MessageService messageService;
 
+	/**
+	 * Instantiates a new Todo api controller.
+	 *
+	 * @param todoService    the todo service
+	 * @param messageService the message service
+	 */
 	@Autowired
 	public TodoApiController(TodoService todoService, MessageService messageService) {
 		super();
 		this.todoService = todoService;
 		this.messageService = messageService;
 	}
-	
+
+	/**
+	 * Gets search todo list.
+	 *
+	 * @param searchCriteria the search criteria
+	 * @return the search todo list
+	 */
 	@GetMapping(path="/todo")
 	@ApiOperation(
 			httpMethod = "GET",
@@ -66,7 +72,13 @@ public class TodoApiController {
 									, HttpStatus.OK);
 	}
 
-	
+
+	/**
+	 * Save contents response entity.
+	 *
+	 * @param contents the contents
+	 * @return the response entity
+	 */
 	@PostMapping(path="/todo")
 	@ApiOperation(
 			httpMethod = "POST",
@@ -87,8 +99,14 @@ public class TodoApiController {
 				.build()
 				, HttpStatus.OK);
 	}
-	
-	
+
+
+	/**
+	 * Update contents response entity.
+	 *
+	 * @param todoTuple the todo tuple
+	 * @return the response entity
+	 */
 	@PutMapping(path="/todo")
 	@ApiOperation(
 			httpMethod = "PUT",
@@ -107,8 +125,14 @@ public class TodoApiController {
 				, HttpStatus.OK);
 		
 	}
-	
-	
+
+
+	/**
+	 * Delete contents response entity.
+	 *
+	 * @param id the id
+	 * @return the response entity
+	 */
 	@DeleteMapping(path="/todo/{id}")
 	@ApiOperation(
 			httpMethod = "DELETE",
@@ -130,8 +154,14 @@ public class TodoApiController {
 				, HttpStatus.OK);
 		
 	}
-	
-	
+
+
+	/**
+	 * Complete todo response entity.
+	 *
+	 * @param id the id
+	 * @return the response entity
+	 */
 	@PutMapping(path="/complete/{id}")
 	@ApiOperation(
 			httpMethod = "PUT",
