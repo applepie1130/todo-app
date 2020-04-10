@@ -1,11 +1,11 @@
 package todo.api.service;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.log4j.Log4j2;
 import todo.api.advice.TodoApiException;
 import todo.api.model.criteria.SearchCriteria;
 import todo.api.model.tuple.TodoTuple;
@@ -20,6 +21,7 @@ import todo.api.model.type.MessageType;
 import todo.api.model.type.StatusType;
 import todo.api.repository.TodoRepository;
 
+@Log4j2
 @Service
 public class TodoService {
 	
@@ -27,6 +29,7 @@ public class TodoService {
 	private final GenerateSequenceService generateSequenceService;
 	private final MessageService messageService;
 	
+	@Autowired
 	public TodoService(TodoRepository todoRepository, GenerateSequenceService generateSequenceService, MessageService messageService) {
 		super();
 		this.todoRepository = todoRepository;
@@ -37,23 +40,11 @@ public class TodoService {
 	private String getSequence() {
 		return generateSequenceService.generateSequence(TodoTuple.SEQUENCE_NAME).toString();
 	}
-	
-	public Page<TodoTuple> getTodoList() {
-		// 최근수정일자로 descending
-		int page = 0;
-		int pageSize = 5;
-		Pageable pageableRequest = PageRequest.of(page, pageSize, Sort.Direction.DESC, "updateDate");
-		Page<TodoTuple> findAll = todoRepository.findAll(pageableRequest);
-		
-		return findAll;
-	}
-	
+
 	public Page<TodoTuple> getSearchTodoList(SearchCriteria searchCriteria) {
 		
 		if ( searchCriteria == null ) {
 			throw new TodoApiException(HttpStatus.INTERNAL_SERVER_ERROR, messageService.getMessage(MessageType.TODO_ERROR_DEFAULT.getCode()));
-		} else if (StringUtils.isBlank(searchCriteria.getKeyword())) {
-			throw new TodoApiException(HttpStatus.INTERNAL_SERVER_ERROR, messageService.getMessage(MessageType.TODO_ERROR_REQURIED_KEYWORD.getCode()));
 		}
 		
 		// 최근수정일자로 descending

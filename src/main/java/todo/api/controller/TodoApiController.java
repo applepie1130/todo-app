@@ -18,6 +18,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.log4j.Log4j2;
 import todo.api.model.criteria.SearchCriteria;
 import todo.api.model.entity.TodoResponseEntity;
 import todo.api.model.tuple.TodoTuple;
@@ -27,6 +28,7 @@ import todo.api.service.TodoService;
 
 
 @Api(tags = "TodoApiController", value = "TODO API", produces = "application/json")
+@Log4j2
 @RestController
 @RequestMapping(path = "/api/v1/", produces = "application/json")
 public class TodoApiController {
@@ -41,35 +43,16 @@ public class TodoApiController {
 		this.messageService = messageService;
 	}
 	
-
 	@GetMapping(path="/todo")
 	@ApiOperation(
 			httpMethod = "GET",
 			value = "TODO 리스트 조회",
-			notes = "입력한 TODO 일정 리스트 정보 조회한다",
-			response = TodoResponseEntity.class
-			)
-	public ResponseEntity<TodoResponseEntity> getTodoList() {
-		
-		Page<TodoTuple> todoList = todoService.getTodoList();
-		
-		return new ResponseEntity<>(TodoResponseEntity.builder()
-									.result(todoList)
-									.status(HttpStatus.OK)
-									.message(messageService.getMessage(MessageType.TODO_SUCCESS_SELECT.getCode(), null))
-									.build()
-									, HttpStatus.OK);
-	}
-	
-	@GetMapping(path="/search")
-	@ApiOperation(
-			httpMethod = "GET",
-			value = "TODO 리스트 키워드 조회",
 			notes = "키워드로 TODO 일정 리스트 정보를 검색한다.",
 			response = TodoResponseEntity.class
 			)
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "keyword", value = "검색키워드", required = true, dataType = "string", paramType = "query", example = "해야할 목록1")
+		@ApiImplicitParam(name = "keyword", value = "검색키워드", required = true, dataType = "string", paramType = "query", example = "해야할 목록1"),
+		@ApiImplicitParam(name = "page", value = "페이징번호", required = true, dataType = "string", paramType = "query", example = "1")
 	})
 	public ResponseEntity<TodoResponseEntity> getSearchTodoList(@ModelAttribute SearchCriteria searchCriteria) {
 		

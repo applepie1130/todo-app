@@ -2,11 +2,11 @@ define( "view/mainView",
 		
 		[
 			"common/helper",
-			"model/mainListModel"
+			"model/pageListModel"
 		],
 		
-		function (	Common,
-					MainListModel) {
+		function (	Helper,
+					PageListModel) {
 	
 	"use strict";
 
@@ -16,35 +16,51 @@ define( "view/mainView",
 		
 		template: Handlebars.compile($("#mainTemplate").html()),
 		
-		model : new MainListModel(),
+		model : new PageListModel( null, {
+			"pagingNumberUnit"	: 5
+		}),
+		
+		criteria : {
+			pageNumber : 1
+		},
 		
 		selectedModel : null,
 
 		initialize: function( options ) {
 			var s = this;
-			s.render();
+			
+			s.pageListModelFetch();
+			
 		},
 		
 		events: {
-		  "click #content"	: "selction",
-		  "click #action"	: "action",
-		  "click #cancel"	: "cancel",
-		  "click #remove"	: "remove",
-		  "click ._check" 	: "complete",
-		  "keydown :input[id='inputArea']"	: "enter"
+		  "click #content"					: "selction",
+		  "click #action"					: "action",
+		  "click #cancel"					: "cancel",
+		  "click #remove"					: "remove",
+		  "click ._check" 					: "complete",
+		  "keydown :input[id='inputArea']"	: "enter",
+		  "click #goPageWithNumber"			: "goPageWithNumber",
+		  "click #goPrevPage"				: "goPrevPage",
+		  "click #goNextPage"				: "goNextPage",
 		},
 		
 		/**
 		 * 일정리스트 조회
 		 */
-		loadData : function() {
+		pageListModelFetch : function() {
 			var s = this;
 			
+			var keyword = "";
+			
+			var url = "/api/v1/todo?" + "page=" + s.criteria.pageNumber + "&keyword=" + keyword;
+			s.model.url = url;
 			s.deferred = s.model.fetch({
 				xhrFields: {
 					withCredentials: true
 				},
 				success		: function(response, status, jqXHR) {
+					s.render();
 				},
 				error : function(response, status, errorThrown) {
 				}
@@ -121,7 +137,8 @@ define( "view/mainView",
 						alert(response.responseJSON.message);
 					}
 				}).always(function(){
-					s.render();
+					s.criteria.pageNumber = 1;
+					s.pageListModelFetch();
 				});
 			} else {
 				// 수정
@@ -141,7 +158,8 @@ define( "view/mainView",
 						alert(response.responseJSON.message);
 					}
 				}).always(function(){
-					s.render();
+					s.criteria.pageNumber = 1;
+					s.pageListModelFetch();
 				});
 			}
 		},
@@ -167,7 +185,7 @@ define( "view/mainView",
 					alert(response.responseJSON.message);
 				}
 			}).always(function(){
-				s.render();
+				s.pageListModelFetch();
 			});
 		},
 		
@@ -192,7 +210,7 @@ define( "view/mainView",
 					alert(response.responseJSON.message);
 				}
 			}).always(function(){
-				s.render();
+				s.pageListModelFetch();
 			});
 			
 		},
@@ -212,10 +230,78 @@ define( "view/mainView",
 			$("#cancel").show();
 		},
 		
-	    render: function() {
+		/**
+		 * 페이징 번호 이동 
+		 */
+		goPageWithNumber : function(e) {
+			e.preventDefault();
+
 			var s = this;
+			var pageNumber = $(e.currentTarget).text();
+
+			s.criteria.pageNumber = pageNumber;
+			s.pageListModelFetch();
+		},
+
+		/**
+		 * 이전페이지 
+		 */
+		goPrevPage : function(e) {
+			e.preventDefault();
+
+			var s = this;
+			var paginationInfoModel = s.model.get("paginationInfoModel").toJSON();
+
+			if ( !_.isEmpty( paginationInfoModel ) ) {
+				var pageNumber = paginationInfoModel.pageNumber;
+				pageNumber = ( !_.isUndefined( pageNumber ) ) ? Number(pageNumber) : 0;
+				pageNumber--;
+				
+				if ( pageNumber !== 0 && pageNumber > 0 ) {
+					
+					s.criteria.pageNumber = pageNumber;
+					s.pageListModelFetch();
+
+				} else {
+		          alert ( "이전 페이지 목록이 없습니다." );
+		          return false;
+		        }
+			}
+		},
+
+		/**
+		 * 다음 페이지 
+		 */
+		goNextPage : function(e) {
+			e.preventDefault();
+
+			var s = this;
+			var paginationInfoModel = s.model.get("paginationInfoModel").toJSON();
+
+			if ( !_.isEmpty( paginationInfoModel ) ) {
+				var pageNumber = paginationInfoModel.pageNumber;
+				pageNumber = ( !_.isUndefined( pageNumber ) ) ? Number(pageNumber) : 0;
+				pageNumber++;
+
+				// 페이지전체크기
+				var _totalPageSize = paginationInfoModel._totalPageSize;
+				_totalPageSize = ( !_.isUndefined( _totalPageSize ) ) ? Number(_totalPageSize) : 0;
+
+				if ( pageNumber !== 0 && _totalPageSize !== 0 && pageNumber <= _totalPageSize ) {
+
+					s.criteria.pageNumber = pageNumber;
+					s.pageListModelFetch( pageNumber );
+
+				} else {
+					alert ( "다음 페이지 목록이 없습니다." );
+					return false;
+				}
+			}
+		},
+		
+	    render: function() {
+			var s = this;			
 			
-			s.loadData();
 			s.saveMode();
 			
 			$.when( s.deferred ).then(function(){

@@ -1,8 +1,8 @@
-
-
 <script id="mainTemplate" type="text/x-handlebars-template">
 <div class="d-flex justify-content-center container">
     <div class="col-lg-8">
+
+		<!-- 상단 검색영역 -->
 		<div class="card-body">
 			<div class="add-items d-flex">
 				<input type="text" id="search" class="form-control bg-light border-0 small input-margin-right" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
@@ -12,7 +12,9 @@
 				</button>
 			</div>
 		</div>
-			
+		
+
+		<!-- TODO 일정입력 영역 -->	
 		<div class="card px-3">
 			<div class="card-body">
 				<div class="add-items d-flex">
@@ -26,11 +28,11 @@
 
 		<br/>
 
+		<!-- TODO 일정리스트 영역 -->
         <div class="card-hover-shadow-2x lg-3 card">
             <div class="card-header-tab card-header">
                 <div class="card-header-title font-size-lg text-capitalize font-weight-normal"><i class="fa fa-tasks"></i>&nbsp;Todo List</div>
             </div>
-            <!-- <div class="scroll-area-sm"> -->
                 <perfect-scrollbar class="ps-show-limits" >
                     <div style="position: static;" class="ps ps--active-y">
                         <div class="ps-content">
@@ -69,29 +71,46 @@
                         </div>
                     </div>
                 </perfect-scrollbar>
-            <!-- </div> -->
-        </div>
+        	</div>
 
 		<br/>
 
-		<nav aria-label="Page navigation example">
+
+		<!-- 하단 페이징 영역 -->
+		<nav aria-label="TODO page navigation">
+		{{#if paginationInfoCollection}}
 			<ul class="pagination justify-content-center pg-blue">
-				<li class="page-item disabled">
-					<a class="page-link _goPrevPage" tabindex="-1"> < </a>
+
+				<li class="page-item">
+					<a class="page-link" id="goPrevPage" tabindex="-1"> < </a>
 				</li>
 
-				<li class="page-item active"><a class="page-link" href="#">1</a></li>
-				<li class="page-item"><a class="page-link" href="#">2</a></li>
-				<li class="page-item"><a class="page-link" href="#">3</a></li>
-				<li class="page-item"><a class="page-link" href="#">4</a></li>
-				<li class="page-item"><a class="page-link" href="#">5</a></li>
+				{{#each paginationInfoCollection}}
+					{{#if _isCurrentPage}}
+						<li class="page-item active"><a class="page-link" href="#">{{_index}}</a></li>
+					{{else}}
+						<li class="page-item"><a id="goPageWithNumber" class="page-link" href="#">{{_index}}</a></li>
+					{{/if}}
 
-    			<li class="page-item _goNextPage">
+				{{/each}}
+
+    			<li class="page-item" id="goNextPage">
+					<a class="page-link"> > </a>
+				</li>
+
+			</ul>
+		{{else}}
+			<ul class="pagination justify-content-center pg-blue">
+				<li class="page-item">
+					<a class="page-link" id="goPrevPage" tabindex="-1"> < </a>
+				</li>
+				<li class="page-item active"><a class="page-link" href="#">1</a></li>
+    			<li class="page-item" id="goNextPage">
 					<a class="page-link"> > </a>
 				</li>
 			</ul>
+		{{/if}}
 		</nav>
-
     </div>
 </div>
 </script>
