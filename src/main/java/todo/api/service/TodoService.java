@@ -1,6 +1,9 @@
 package todo.api.service;
 
-import lombok.extern.log4j.Log4j2;
+import java.util.Date;
+import java.util.Objects;
+import java.util.Optional;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,16 +12,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import lombok.extern.log4j.Log4j2;
 import todo.api.advice.TodoApiException;
 import todo.api.model.criteria.SearchCriteria;
 import todo.api.model.tuple.TodoTuple;
 import todo.api.model.type.MessageType;
 import todo.api.model.type.StatusType;
 import todo.api.repository.TodoRepository;
-
-import java.util.Date;
-import java.util.Objects;
-import java.util.Optional;
 
 /**
  * The type Todo service.
@@ -162,7 +163,9 @@ public class TodoService {
 				break;
 			}
 			
-			todoRepository.save(todoTuple);
+			TodoTuple save = todoRepository.save(todoTuple);
+			
+			System.out.println(save);
 			
 		} else {
 			throw new TodoApiException(HttpStatus.INTERNAL_SERVER_ERROR, messageService.getMessage(MessageType.TODO_ERROR_NODATA.getCode()));

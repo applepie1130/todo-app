@@ -13,14 +13,15 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
-@Configuration
 @EnableWebMvc
+@Configuration
 public class TodoWebConfig implements WebMvcConfigurer {
 
 	private final ApplicationContext applicationContext;
 	
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
-            "classpath:/META-INF/resources/", 
+    		"classpath:/META-INF/resources/",
+    		"classpath:/META-INF/resources/webjars/", 
             "classpath:/resources/",
             "classpath:/templates/",
             "classpath:/swagger/",

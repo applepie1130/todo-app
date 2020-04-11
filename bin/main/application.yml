@@ -1,13 +1,16 @@
-
+## spring application설정(프로파일, message소스 설정)
 spring:
+  profiles: dev
   messages:
     basename: message/messages
     encoding: UTF-8 
 
+## 로깅레벨설정
 logging:
   level:
     todo : DEBUG
 
+## actuator 설정
 management:
   endpoints:
     web:

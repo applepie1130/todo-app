@@ -38,7 +38,7 @@ define( "view/mainView",
 			s.searchView = new SearchView();
 			
 			// trigger listenTo
-			s.listenTo( s.searchView, "searchTrigger", s.pageListModelFetch );
+			s.listenTo( s.searchView, "searchTrigger", s.initialPageListModelFetch );
 			
 			s.pageListModelFetch();
 			
@@ -55,6 +55,7 @@ define( "view/mainView",
 		  "click #goPrevPage"				: "goPrevPage",
 		  "click #goNextPage"				: "goNextPage",
 		},
+		
 		
 		/**
 		 * 일정리스트 조회
@@ -75,7 +76,15 @@ define( "view/mainView",
 				error : function(response, status, errorThrown) {
 				}
 			});
-			
+		},
+		
+		/**
+		 * 초기화조회
+		 */
+		initialPageListModelFetch : function() {
+			var s = this;
+			s.criteria.pageNumber = 1;
+			s.pageListModelFetch();
 		},
 
 		/**
@@ -146,8 +155,7 @@ define( "view/mainView",
 						alert(response.responseJSON.message);
 					}
 				}).always(function(){
-					s.criteria.pageNumber = 1;
-					s.pageListModelFetch();
+					s.initialPageListModelFetch();
 				});
 			} else {
 				// 수정
@@ -167,8 +175,7 @@ define( "view/mainView",
 						alert(response.responseJSON.message);
 					}
 				}).always(function(){
-					s.criteria.pageNumber = 1;
-					s.pageListModelFetch();
+					s.initialPageListModelFetch();
 				});
 			}
 		},
@@ -194,7 +201,13 @@ define( "view/mainView",
 					alert(response.responseJSON.message);
 				}
 			}).always(function(){
+				
+				// 마지막 페이지에서 항목삭제시 이전 페이지로 조회
+				if ( _.size( s.model.toJSON().list ) === 1 ) {
+					s.criteria.pageNumber--;
+				}
 				s.pageListModelFetch();
+				
 			});
 		},
 		

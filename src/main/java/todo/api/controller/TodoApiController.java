@@ -57,7 +57,7 @@ public class TodoApiController {
 			response = TodoResponseEntity.class
 			)
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "keyword", value = "검색키워드", required = true, dataType = "string", paramType = "query", example = "해야할 목록1"),
+		@ApiImplicitParam(name = "keyword", value = "검색키워드", required = false, dataType = "string", paramType = "query", example = "해야할 목록1"),
 		@ApiImplicitParam(name = "page", value = "페이징번호", required = true, dataType = "string", paramType = "query", example = "1")
 	})
 	public ResponseEntity<TodoResponseEntity> getSearchTodoList(@ModelAttribute SearchCriteria searchCriteria) {
@@ -87,7 +87,7 @@ public class TodoApiController {
 			response = TodoResponseEntity.class
 			)
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "contents", value = "일정", required = true, dataType = "string", paramType = "query", example = "해야할 목록1")
+		@ApiImplicitParam(name = "contents", value = "일정내용", required = true, dataType = "string", paramType = "query", example = "해야할 목록1")
 	})
 	public ResponseEntity<TodoResponseEntity> saveContents(@ModelAttribute("contents") final String contents) {
 		
@@ -141,7 +141,7 @@ public class TodoApiController {
 			response = TodoResponseEntity.class
 			)
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "id", value = "id", required = true, dataType = "string", paramType = "path", example = "")
+		@ApiImplicitParam(name = "id", value = "일정 고유ID", required = true, dataType = "string", paramType = "path", example = "1")
 	})
 	public ResponseEntity<TodoResponseEntity> deleteContents(@PathVariable("id") final String id) {
 		
@@ -170,7 +170,7 @@ public class TodoApiController {
 			response = TodoResponseEntity.class
 			)
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "id", value = "id", required = true, dataType = "string", paramType = "path", example = "")
+		@ApiImplicitParam(name = "id", value = "일정 고유ID", required = true, dataType = "string", paramType = "path", example = "")
 	})
 	public ResponseEntity<TodoResponseEntity> completeTodo(@PathVariable("id") final String id) {
 		

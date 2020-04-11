@@ -25,7 +25,6 @@ define( "view/searchView",
 			"click #search" : "search",
 			"keyup :input[id='searchArea']"	: "searchEnter",
 		},
-		
 
 		/**
 		 * 검색 이벤트

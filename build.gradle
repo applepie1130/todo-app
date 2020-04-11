@@ -51,7 +51,6 @@ dependencies {
 
 	/* DB Settings */
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: '2.2.6.RELEASE'
-	/*compile group: 'org.springframework.data', name: 'spring-data-commons', version: '2.2.6.RELEASE'*/
 	compile group: 'de.flapdoodle.embed', name: 'de.flapdoodle.embed.mongo', version: '2.2.0'
 	compile group: 'cz.jirutka.spring', name: 'embedmongo-spring', version: '1.1'
 	/* DB Settings */
