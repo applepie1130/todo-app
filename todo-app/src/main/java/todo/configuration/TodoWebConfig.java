@@ -21,9 +21,13 @@ public class TodoWebConfig implements WebMvcConfigurer {
 	
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
     		"classpath:/META-INF/resources/",
-    		"classpath:/META-INF/resources/webjars/", 
+    		"classpath:/META-INF/resources/webjars/",
+    		"classpath:/META-INF/resources/static/",
+    		"classpath:/META-INF/resources/swagger/",
+    		"classpath:/META-INF/resources/templates/",
             "classpath:/resources/",
             "classpath:/static/",
+            "classpath:/swagger/",
             "classpath:/templates/"
             };
 
@@ -61,6 +65,7 @@ public class TodoWebConfig implements WebMvcConfigurer {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/static/webjars/", "classpath:/META-INF/resources/webjars/");
+		registry.addResourceHandler("/swagger/**").addResourceLocations("classpath:/swagger/");
 		registry.addResourceHandler("/**").addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
 	}
 }
