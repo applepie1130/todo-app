@@ -3,7 +3,7 @@ spring:
   profiles: dev
   messages:
     basename: message/messages
-    encoding: UTF-8 
+    encoding: UTF-8
 
 ## 로깅레벨설정
 logging:

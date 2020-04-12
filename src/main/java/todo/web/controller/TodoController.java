@@ -24,7 +24,7 @@ public class TodoController {
 		model.addAttribute("pageTitle", "Todo");
 		model.addAttribute("title", "Todo List");
 
-		return "/main/main";
+		return "main/main";
 	}
 	
 }
