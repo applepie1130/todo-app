@@ -1,0 +1,12 @@
+version: "3"
+services:
+  todo-app:
+      build: .
+      ports:
+        - 8080:8080
+      volumes:
+        - ./libs:/app/todo-app/libs
+        - ./logs:/app/todo-app/logs
+      deploy:
+        mode: replicated
+        replicas: 1

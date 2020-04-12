@@ -1,8 +1,0 @@
-## Todo App 포트
-server:
-  port: 8080
-
-## spring application설정
-spring:       
-  application:
-    name: todo-app

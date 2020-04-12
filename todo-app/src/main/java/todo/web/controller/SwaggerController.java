@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SwaggerController {
 	@RequestMapping("/api-docs")
 	public String documents() {
-		return "/swagger/index.html";
+		return "swagger/index.html";
 	}
 }
