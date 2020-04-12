@@ -9,7 +9,6 @@ build/
 ## Java ##
 .mtj.tmp/
 *.class
-*.jar
 *.war
 *.ear
 *.nar
@@ -22,13 +21,6 @@ target/
 tmp/
 classes/
 META-INF/
-
-
-## Package Files ##
-*.jar
-*.war
-*.ear
-*.db
 
 
 ## OS ##
