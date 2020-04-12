@@ -60,7 +60,7 @@
 
 ## 4. Todo App Application 실행방법
 - 테스트 환경 조건
-  - JDK 1.8 이상 버전이 설치 필요
+  - JDK 1.8+ 버전 설치 필요
   - Docker 설치 필요
 - 테스트 환경 설정 `(MAC OS 예시)`
 - JDK 설치
