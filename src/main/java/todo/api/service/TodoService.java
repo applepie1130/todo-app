@@ -1,6 +1,6 @@
 package todo.api.service;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -84,8 +84,8 @@ public class TodoService {
 		
 		TodoTuple todoTuple = TodoTuple.builder()
 			.id(this.getSequence())
-			.insertDate(new Date())
-			.updateDate(new Date())
+			.insertDate(LocalDateTime.now())
+			.updateDate(LocalDateTime.now())
 			.contents(contents)
 			.status(StatusType.ING)
 			.build();
@@ -111,7 +111,7 @@ public class TodoService {
 			throw new TodoApiException(HttpStatus.INTERNAL_SERVER_ERROR, messageService.getMessage(MessageType.TODO_ERROR_REQURIED_CONTENT.getCode()));
 		}
 		
-		todoTuple.setUpdateDate(new Date());
+		todoTuple.setUpdateDate(LocalDateTime.now());
 		
 		TodoTuple result = todoRepository.save(todoTuple);
 		
@@ -146,7 +146,7 @@ public class TodoService {
 		}
 		
 		Optional<TodoTuple> findByIdResult = todoRepository.findById(id);
-		findByIdResult.filter(Objects::nonNull).orElseThrow(() -> new TodoApiException(HttpStatus.INTERNAL_SERVER_ERROR, messageService.getMessage(MessageType.TODO_ERROR_DEFAULT.getCode())));
+		findByIdResult.filter(Objects::nonNull).orElseThrow(() -> new TodoApiException(HttpStatus.INTERNAL_SERVER_ERROR, messageService.getMessage(MessageType.TODO_ERROR_NODATA.getCode())));
 		
 		if ( findByIdResult.isPresent() ) {
 			TodoTuple todoTuple = findByIdResult.get();
@@ -163,12 +163,7 @@ public class TodoService {
 				break;
 			}
 			
-			TodoTuple save = todoRepository.save(todoTuple);
-			
-			System.out.println(save);
-			
-		} else {
-			throw new TodoApiException(HttpStatus.INTERNAL_SERVER_ERROR, messageService.getMessage(MessageType.TODO_ERROR_NODATA.getCode()));
+			todoRepository.save(todoTuple);
 		}
 	}
 }

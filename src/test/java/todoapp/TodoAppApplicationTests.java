@@ -9,7 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -109,7 +109,7 @@ public class TodoAppApplicationTests {
 				.id("2")
 				.contents("TODO 일정1 (edited)")
 				.status(StatusType.ING)
-				.insertDate(new Date())
+				.insertDate(LocalDateTime.now())
 				.build();
 		
 		mockMvc.perform(put("/api/v1/todo")

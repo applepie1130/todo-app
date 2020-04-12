@@ -20,26 +20,43 @@ import net.rakugakibox.util.YamlResourceBundle;
 @Configuration
 public class MessageConfig implements WebMvcConfigurer {
  
-    @Bean // 세션에 지역설정. default는 KOREAN = 'ko'
+	/**
+	 * 세션에 지역설정. default는 KOREAN = 'ko'
+	 * @return
+	 */
+    @Bean 
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
         slr.setDefaultLocale(Locale.KOREAN);
         return slr;
     }
  
-    @Bean // 지역설정을 변경하는 인터셉터. 요청시 파라미터에 lang 정보를 지정하면 언어가 변경됨.
+    /**
+     * 지역설정을 변경하는 인터셉터. 요청시 파라미터에 lang 정보를 지정하면 언어가 변경됨.
+     * @return
+     */
+    @Bean 
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
         lci.setParamName("lang");
         return lci;
     }
  
-    @Override // 인터셉터를 시스템 레지스트리에 등록
+    /**
+     * 인터셉터를 시스템 레지스트리에 등록
+     */
+    @Override 
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
     }
  
-    @Bean // yml 파일을 참조하는 MessageSource 선언
+    /**
+     * yml 파일을 참조하는 MessageSource 선언
+     * @param basename
+     * @param encoding
+     * @return
+     */
+    @Bean 
     public MessageSource messageSource(
             @Value("${spring.messages.basename}") String basename,
             @Value("${spring.messages.encoding}") String encoding
@@ -53,7 +70,10 @@ public class MessageConfig implements WebMvcConfigurer {
         return ms;
     }
  
-    // locale 정보에 따라 다른 yml 파일을 읽도록 처리
+    /**
+     * locale 정보에 따라 다른 yml 파일을 읽도록 처리
+     * @author sungjunkim
+     */
     private static class YamlMessageSource extends ResourceBundleMessageSource {
         @Override
         protected ResourceBundle doGetBundle(String basename, Locale locale) throws MissingResourceException {
