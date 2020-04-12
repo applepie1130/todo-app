@@ -66,4 +66,10 @@ public class SwaggerConfig implements WebMvcConfigurer {
 				.license(license)
 				.build();
 	}
+	
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/swagger/**").addResourceLocations("classpath:/swagger/");
+		registry.addResourceHandler("/**").addResourceLocations("classpath:/swagger/");
+	}
 }
