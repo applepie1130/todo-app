@@ -24,6 +24,8 @@
 ## 2. 주요 기능
 - API 문서 확인
     - 접속 URL : [Swagger API Docs](http://localhost:8080/swagger/index.html)
+- 단위테스트
+    - /todo-app/src/test/java/todoapp/TodoAppApplicationTests.java
 - Todo App
     - 접속 URL : [Todo App](http://localhost:8080/)
     - 키워드 검색 (일정내용으로 full like 검색)
