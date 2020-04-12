@@ -9,6 +9,7 @@
     - Bootstrap
     - webjar
 - Backend
+    - Java 1.8
     - Spring Boot 2.1.9
     - Embed MongoDB
     - Swagger UI
@@ -57,11 +58,13 @@
 
 ## 4. Todo App Application 실행방법
 - docker 설치 `(MAC OS 예시)` 아래 2가지 방법
-  - command 설치
 ```bash
+# command 설치
 $ brew cask install docker
-```
-  - 파일 다운로드 & 설치 https://hub.docker.com/editions/community/docker-ce-desktop-mac/ 
+
+# GUI로 파일 다운로드 설치시 아래 URL에서 다운로드
+# https://hub.docker.com/editions/community/docker-ce-desktop-mac/ 
+``` 
 
 - check out 받은 깃헙 디렉토리에서 아래 스크립트 파일 수행
   - `실행명령어 ./todo-app.sh start` 수행 후 서버가 뜨기까지 수십초 시간이 소요되므로 명령어 수행 후 약 `1분` 후 [접속URL](http://localhost:8080) http://localhost:8080 로 접속해 주시기 바랍니다. 
