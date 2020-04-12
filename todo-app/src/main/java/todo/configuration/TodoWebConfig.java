@@ -60,7 +60,7 @@ public class TodoWebConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/static/webjars/", "classpath:/META-INF/resources/webjars/");
+		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/static/webjars/", "classpath:/META-INF/resources/webjars/");
 		registry.addResourceHandler("/**").addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
 	}
 }
