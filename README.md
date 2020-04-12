@@ -79,7 +79,8 @@ $ brew cask install docker
 ```bash
 # Todo App 실행 명령어
 $ ./todo-app.sh start
-
+```
+```bash
 # Todo App 종료 명령어
 $ ./todo-app.sh stop
 ```
