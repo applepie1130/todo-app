@@ -67,13 +67,12 @@ $ brew cask install docker
 ``` 
 
 - check out 받은 깃헙 디렉토리에서 아래 스크립트 파일 수행
-  - `실행명령어 ./todo-app.sh start` 수행 후 서버가 뜨기까지 수십초 시간이 소요되므로 명령어 수행 후 약 `1분` 후 [접속URL](http://localhost:8080) http://localhost:8080 로 접속해 주시기 바랍니다. 
-
+- `실행명령어 ./todo-app.sh start` 수행 후 서버가 뜨기까지 수십초 시간이 소요되므로 해당 명령어 수행 후 약 `1분` 이 후 [접속URL](http://localhost:8080) http://localhost:8080 로 접속해 주시기 바랍니다. 
 ```bash
 # Todo App 실행 명령어
 $ ./todo-app.sh start
 
-# Todo App 실행 종료 명령어
+# Todo App 종료 명령어
 $ ./todo-app.sh stop
 ```
 
