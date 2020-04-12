@@ -3,14 +3,16 @@
 - Frontend
     - Backbone.js
     - Underscore.js
+    - RequireJS
     - jQuery
     - Handlebars Template
-    - Thymelef Template
+    - Thymelef
     - Bootstrap
     - Webjar
 - Backend
     - Java 1.8
     - Spring Boot 2.1.9
+    - Gradle
     - Embed MongoDB
     - Swagger UI
     - Lombok
