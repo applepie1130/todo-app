@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -105,16 +106,12 @@ public class TodoAppApplicationTests {
 	public void test003_edit() throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
 		
-		TodoTuple tuple = TodoTuple.builder()
-				.id("2")
-				.contents("TODO 일정1 (edited)")
-				.status(StatusType.ING)
-				.insertDate(LocalDateTime.now())
-				.build();
+		TodoTuple todoTuple = todoRepository.findById("2").get();
+		todoTuple.setContents("TODO 일정1 (edited)");		
 		
 		mockMvc.perform(put("/api/v1/todo")
 							.contentType(MediaType.APPLICATION_JSON)
-							.content(mapper.writeValueAsString(tuple))
+							.content(mapper.writeValueAsString(todoTuple))
 						)
 				.andDo(print())
 				.andExpect(status().isOk());
