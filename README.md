@@ -67,13 +67,13 @@
 - 테스트 환경 설정 `(MAC OS 예시)`
 - JDK 설치
 ```bash
-# 아래 URL에서 다운로드 설치
+# JDK8 다운로드
 https://www.oracle.com/java/technologies/javase-jdk8-downloads.html
 ```
 - docker 설치
 ```bash
-# Docker Tool  아래 URL에서 다운로드 설치
-# https://hub.docker.com/editions/community/docker-ce-desktop-mac/
+# Docker Desktop for Mac 다운로드
+https://hub.docker.com/editions/community/docker-ce-desktop-mac/
 ``` 
 - check out 받은 깃헙 디렉토리에서 아래 스크립트 파일 수행
 - `실행명령어 ./todo-app.sh start` 수행 후 서버가 뜨기까지 수십초 시간이 소요되므로 해당 명령어 수행 후 약 `1분` 이 후 [접속URL](http://localhost:8080)로 접속해 주시기 바랍니다. 
