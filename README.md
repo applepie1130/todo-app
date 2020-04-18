@@ -16,18 +16,19 @@
     - Embed MongoDB
     - Swagger UI
     - Lombok
-    - Docker
+    - Docker, Docker Compose
     - Bash shell (실행 스크립트)
+    - Nginx (reverse proxy)
 
 
 
 ## 2. 주요 기능
 - API 문서 확인
-    - 접속 URL : [Swagger API Docs](http://localhost:8080/swagger/index.html)
+    - 접속 URL : [Swagger API Docs](http://localhost/swagger/index.html)
 - 단위테스트
     - /todo-app/src/test/java/todoapp/TodoAppApplicationTests.java
 - Todo App
-    - 접속 URL : [Todo App](http://localhost:8080/)
+    - 접속 URL : [Todo App](http://localhost/)
     - 키워드 검색 (일정내용으로 full like 검색)
     - 일정 조회 (등록된 일정내역 노출, 등록/수정일자, 일정완료여부 노출)
     - 페이징기능 (5건의 일정 단위로 페이징 처리)
@@ -76,7 +77,7 @@ https://www.oracle.com/java/technologies/javase-jdk8-downloads.html
 https://hub.docker.com/editions/community/docker-ce-desktop-mac/
 ``` 
 - check out 받은 깃헙 디렉토리에서 아래 스크립트 파일 수행
-- `실행명령어 ./todo-app.sh start` 수행 후 서버가 뜨기까지 수십초 시간이 소요되므로 해당 명령어 수행 후 약 `1분` 이 후 [접속URL](http://localhost:8080)로 접속해 주시기 바랍니다. 
+- `실행명령어 ./todo-app.sh start` 수행 후 서버가 뜨기까지 수십초 시간이 소요되므로 해당 명령어 수행 후 약 `1분` 이 후 [접속URL](http://localhost/)로 접속해 주시기 바랍니다. 
 ```bash
 # Todo App 실행 명령어
 $ ./todo-app.sh start
@@ -85,7 +86,11 @@ $ ./todo-app.sh start
 # Todo App 종료 명령어
 $ ./todo-app.sh stop
 ```
-
+- IDE(Intellij, STS..)에서 실행시
+```bash
+# VM Arguments 추가 : -Dspring.profiles.active=dev
+# 8080포트로 브라우저 호출 (http://localhost:8080/)
+```
 
 
 ## 5. Contact

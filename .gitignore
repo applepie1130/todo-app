@@ -41,7 +41,7 @@ Thumbs.db
 .springBeans
 .sts4-cache
 *.launch
-
+*.log
 
 ## Files that might appear on external disk
 .Spotlight-V100

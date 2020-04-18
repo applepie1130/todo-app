@@ -5,7 +5,6 @@ set -a
 set +a
 
 CMD=$1
-SCALE=$2
 
 . .env
 
@@ -17,7 +16,7 @@ start() {
 }
 
 stop() {
-    docker-compose -f docker-compose-todo-app.yml down
+    docker-compose -f docker-compose-todo-app.yml stop
 }
 
 case "${CMD}" in    

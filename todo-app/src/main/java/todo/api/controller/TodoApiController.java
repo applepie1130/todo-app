@@ -69,7 +69,7 @@ public class TodoApiController {
 		@ApiImplicitParam(name = "keyword", value = "검색키워드", required = false, dataType = "string", paramType = "query", example = ""),
 		@ApiImplicitParam(name = "page", value = "페이징번호", required = true, dataType = "string", paramType = "query", example = "1")
 	})
-	public ResponseEntity<TodoResponseEntity> getSearchTodoList(@ModelAttribute SearchCriteria searchCriteria) {
+	public ResponseEntity<TodoResponseEntity> getSearchTodoList(@ModelAttribute final SearchCriteria searchCriteria) {
 		
 		Page<TodoTuple> todoList = todoService.getSearchTodoList(searchCriteria);
 		

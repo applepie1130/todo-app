@@ -13,6 +13,12 @@ import org.springframework.stereotype.Service;
 
 import todo.api.model.tuple.DatabaseSequenceTuple;
 
+/**
+ * Auto-Generated Field for MongoDB using Spring Boot
+ * 
+ * @see https://www.baeldung.com/spring-boot-mongodb-auto-generated-field
+ * @author sungjunkim
+ */
 @Service
 public class GenerateSequenceService {
 
