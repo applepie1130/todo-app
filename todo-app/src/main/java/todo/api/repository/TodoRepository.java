@@ -1,5 +1,7 @@
 package todo.api.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -24,5 +26,14 @@ public interface TodoRepository extends PagingAndSortingRepository<TodoTuple, St
 	 * @return
 	 */
     Page<TodoTuple> findByContentsLike(String keyword, Pageable pageable);
+    
+    
+    /**
+     * 여러 id 리스트로 일정정보 조회 
+     * 
+     * @param idList
+     * @return
+     */
+    List<TodoTuple> findByIdIn(List<String> idList);
 
 }

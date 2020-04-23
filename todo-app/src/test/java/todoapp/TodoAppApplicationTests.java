@@ -56,10 +56,10 @@ public class TodoAppApplicationTests {
 		assertNotNull(todoService);
 		assertNotNull(todoRepository);
 		
-		todoService.saveContents("완료테스트");
-		todoService.saveContents("TODO 일정1");
-		todoService.saveContents("TODO 일정2");
-		todoService.saveContents("TODO 일정3");
+//		todoService.saveContents("완료테스트");
+//		todoService.saveContents("TODO 일정1");
+//		todoService.saveContents("TODO 일정2");
+//		todoService.saveContents("TODO 일정3");
 	}
 	
 	/**

@@ -1,14 +1,19 @@
 todo:
   success:
-    select: 조회되었습니다.
-    process: 처리되었습니다.
-    
+    select: "조회되었습니다."
+    process: "처리되었습니다."
   error:
-    default : 오류가 발생했습니다..
-    nodata : 데이터를 찾을 수 없습니다.
+    default: "오류가 발생했습니다."
+    nodata: "데이터를 찾을 수 없습니다."
+    refer:
+      self: "자기자신을 참조할 수 없습니다."
+      existReferId: "추가하려는 참조일정 중 하위 일정을 가지고 있는 ID가 존재합니다."
+      alreadyReferId: "추가하려는 참조일정 이미 다른 일정의 하위일정으로 쓰이고 있습니다."
+      existsNonCompletedReferId: "참조된 일정 중 일정완료 되지 않은 일정이 있습니다."
+    save: "저장처리 중 오류가 발생했습니다."
+    update: 
+      default: "수정처리 중 오류가 발생했습니다."
     required:
-      id: ID값은 필수입니다.
-      content: 내용을 입력해 주세요.
-      keyword: 검색 키워드를 입력해주세요.
-    save: 저장처리 중 오류가 발생했습니다.
-    update: 수정처리 중 오류가 발생했습니다.
+      id: "ID값은 필수입니다."
+      content: "내용을 입력해 주세요."
+      keyword: "검색 키워드를 입력해주세요."

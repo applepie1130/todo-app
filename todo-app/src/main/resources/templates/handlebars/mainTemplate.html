@@ -11,6 +11,10 @@
 					<button class="add btn btn-primary font-weight-bold todo-list-add-btn" id="action">Add</button>
 					<button class="btn btn-link font-weight-bold" id="cancel" style="display:none;">Cancel</button>
 				</div>
+
+				<div class="add-items d-flex">
+					<input type="text" id="inputIdArea" class="input-margin-right form-control todo-list-input" placeholder="Add Refer Todo Ids e.g.) 1, 2, 3...">
+				</div>
 			</div>			
 		</div>
 
@@ -36,9 +40,9 @@
                                             </div>
                                             <div class="widget-content-left" id="content">
 												{{#if this.isCompleted}}
-                                                <div class="widget-heading completed">{{this.contents}} <div class="badge badge-pill badge-info ml-2">Completed</div></div>
+                                                <div class="widget-heading completed">{{this.id}} : {{this.contents}} <div class="badge badge-pill badge-info ml-2">Completed</div></div>
 												{{else}}
-												<div class="widget-heading">{{this.contents}}</div>
+												<div class="widget-heading">{{this.id}} : {{this.contents}}</div>
 												{{/if}} 
 
                                                 <div class="widget-subheading">
@@ -47,6 +51,17 @@
 												<div class="widget-subheading">
 													<i>Modified {{formatDate this.updateDate 'YYYY.MM.DD'}}</i>
 												</div>
+												{{#if this.referList}}
+												{{#each this.referList}}
+													<div class="widget-subheading">
+														{{#if this.isCompleted}}
+														연관 일정 : <i class="completed">@{{this.id}} {{this.contents}}</i>
+														{{else}}
+														연관 일정 : <i>@{{this.id}} {{this.contents}}</i>
+														{{/if}}
+													</div>
+												{{/each}}
+												{{/if}}
                                             </div>
                                             <div class="widget-content-right">
 											<!-- <button class="border-0 btn-transition btn btn-outline-success"> <i class="fa fa-check"></i></button> -->

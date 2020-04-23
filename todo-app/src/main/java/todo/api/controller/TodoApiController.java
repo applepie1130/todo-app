@@ -21,6 +21,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
 import todo.api.model.criteria.SearchCriteria;
 import todo.api.model.entity.TodoResponseEntity;
+import todo.api.model.tuple.ContentsReferTuple;
 import todo.api.model.tuple.TodoTuple;
 import todo.api.model.type.MessageType;
 import todo.api.service.MessageService;
@@ -96,11 +97,12 @@ public class TodoApiController {
 			response = TodoResponseEntity.class
 			)
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "contents", value = "일정내용", required = true, dataType = "string", paramType = "query", example = "해야할 목록1")
+		@ApiImplicitParam(name = "contents", value = "일정내용", required = true, dataType = "string", paramType = "query", example = "해야할 목록1"),
+		@ApiImplicitParam(name = "referIdList", value = "참조할 일정ID", required = false, dataType = "string", paramType = "query", example = "")
 	})
-	public ResponseEntity<TodoResponseEntity> saveContents(@ModelAttribute("contents") final String contents) {
+	public ResponseEntity<TodoResponseEntity> saveContents(@ModelAttribute final ContentsReferTuple contentsReferTuple) {
 		
-		todoService.saveContents(contents);
+		todoService.saveContents(contentsReferTuple);
 		
 		return new ResponseEntity<>(TodoResponseEntity.builder()
 				.status(HttpStatus.OK)

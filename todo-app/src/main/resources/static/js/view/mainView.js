@@ -113,9 +113,10 @@ define( "view/mainView",
 			
 			if ( !_.isNull(s.selectedModel) ) {
 				var contents = s.selectedModel.contents;
+				var referIdList = s.selectedModel.referIdList;
 				
 				// 수정모드
-				s.editMode(contents);
+				s.editMode(contents, referIdList);
 			}
 		},
 		
@@ -137,6 +138,13 @@ define( "view/mainView",
 			e.preventDefault();
 			var s = this;
 			var contents = $("#inputArea").val();
+			var referIdList = $("#inputIdArea").val();
+			
+			var data = {};
+			data.contents = contents;
+			if (!_.isEmpty(referIdList)) {
+				data.referIdList = referIdList;
+			}
 			
 			// 신규저장
 			if (s.selectedModel == null) {
@@ -146,9 +154,7 @@ define( "view/mainView",
 					},
 					url			: "/api/v1/todo",
 					type		: "post",
-					data		: {
-						"contents" : contents
-					},
+					data		: data,
 					success		: function(response, status, jqXHR) {
 					},
 					error : function(response, status, errorThrown) {
@@ -160,6 +166,10 @@ define( "view/mainView",
 			} else {
 				// 수정
 				s.selectedModel.contents = contents;
+				
+				if (!_.isEmpty(referIdList)) {
+					s.selectedModel.referIdList = referIdList.split(",");
+				}
 				
 				s.deferred = Backbone.ajax({
 					xhrFields: {
@@ -241,13 +251,15 @@ define( "view/mainView",
 			var s = this;
 			s.selectedModel = null;
 			$("#inputArea").val("");
+			$("#inputIdArea").val("");
 			$("#action").text("Add");
 			$("#cancel").hide();
 		},
 		
-		editMode: function(contents) {
+		editMode: function(contents, referIdList) {
 			var s = this;
 			$("#inputArea").val(contents);
+			$("#inputIdArea").val(referIdList);
 			$("#action").text("Edit");
 			$("#cancel").show();
 		},

@@ -43,10 +43,19 @@ define( "model/pageListModel",
 			
 			if ( !_.isEmpty( response.result ) ) {
 				var list = response.result.content;									// 조회한 결과 리스트
-				
 				// 데이터 가공
 				_.forEach(list, function(data){
 					data.isCompleted = (data.status === "COMPLETED");
+					
+					var referIdList = [];
+					_.forEach(data.referList, function(subData){
+						if (!_.isNull(subData)) {
+							subData.isCompleted = (subData.status === "COMPLETED");
+							referIdList.push(subData.id);
+						}
+					});
+					
+					data.referIdList = _.isEmpty(referIdList) ? null : referIdList;
 				});
 				
 				var paginationInfoModel	= {

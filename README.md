@@ -36,7 +36,16 @@
     - 일정 수정 (등록된 일정 목록에서 해당 일정 클릭시 상단에서 수정/저장 가능)
     - 일정 삭제 (빨간색 휴지통 클릭)
     - 일정 상태변경 (체크박스 클릭)
-
+    - 일정 참조
+        - 참조제약정책
+            - 부모일정은 자식일정들이 모두 완료되어야 완료할 수 있음
+            - 순환 참조 불가 
+                - e.g.) 2->3을 참조, 3->2를 참조 불가
+                - 자기 자신을 참조로 할 수 없음
+            - 부모일정은 다른 일정의 자식이 될 수 없음
+            - 자식일정으로 등록된 일정은 다른 부모일정의 또 다른 자식일정이 될 수 없음
+        - 참조방법
+            - 참조란에 ID값을 숫자로 콤마(,) 단위로 입력
 
 
 ## 3. 주요 기능별 스크린샷
@@ -57,7 +66,13 @@
 
 | Todo App 화면소개 (일정 수정)                                                                      | Todo App (일정 상태변경)                                                                            |
 | ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| [![Screenshot of result6](./screenshots/screenshot-5.png)](./screenshots/screenshot-5.png) | [![Screenshot of result5](./screenshots/screenshot-6.png)](./screenshots/screenshot-6.png) |
+| [![Screenshot of result6](./screenshots/screenshot-5.png)](./screenshots/screenshot-5.png) | [![Screenshot of result7](./screenshots/screenshot-6.png)](./screenshots/screenshot-6.png) |
+
+
+| Todo App 화면소개 (일정 참조)                                                                      | Todo App (일정 참조)                                                                            |
+| ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| [![Screenshot of result8](./screenshots/screenshot-7.png)](./screenshots/screenshot-7.png) | [![Screenshot of result9](./screenshots/screenshot-8.png)](./screenshots/screenshot-8.png) |
+
 
 
 

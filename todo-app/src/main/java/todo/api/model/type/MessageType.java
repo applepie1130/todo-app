@@ -13,8 +13,12 @@ public enum MessageType {
 	TODO_ERROR_REQURIED_ID("todo.error.requried.id"),
 	TODO_ERROR_REQURIED_KEYWORD("todo.error.required.keyword"),
 	TODO_ERROR_REQURIED_CONTENT("todo.error.required.content"),
+	TODO_ERROR_REFER_SELF("todo.error.refer.self"),
+	TODO_ERROR_REFER_EXISTREFERID("todo.error.refer.existReferId"),
+	TODO_ERROR_REFER_ALREADYREFERID("todo.error.refer.alreadyReferId"),
+	TODO_ERROR_REFER_EXISTSNONCOMPLETEDREFERID("todo.error.refer.existsNonCompletedReferId"),
 	TODO_ERROR_SAVE("todo.error.save"),
-	TODO_ERROR_UPDATE("todo.error.update"),
+	TODO_ERROR_UPDATE_DEFAULT("todo.error.update.default"),
 	TODO_ERROR_DEFAULT("todo.error.default"),
 	
 	;
